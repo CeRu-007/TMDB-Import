@@ -239,13 +239,7 @@ def ini_playwright_page(headless=None, save_user_profile=False, images=False):
             page = context.new_page()
         except Exception as e:
             raise PlaywrightBrowserError(f"Failed to create new page: {e}") from e
-        
-        # Hide webdriver property to avoid detection
-        try:
-            page.add_init_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
-        except Exception as e:
-            print(f"Warning: Failed to hide webdriver property: {e}")
-        
+
         # Store references for cleanup
         page._playwright_context = context
         page._playwright_browser = browser

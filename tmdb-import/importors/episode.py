@@ -171,10 +171,9 @@ def import_spisode(tmdb_id, season_number, language):
                     pass
                 time.sleep(random.uniform(1, 2))
                 page.locator("button[class*='k-button'][class*='k-grid-add']").click()
-                
+                time.sleep(random.uniform(1, 2))
                 # Wait for episode number field and get its value
-                page.wait_for_selector("#episode_number_numeric_text_box_field", timeout=60000)
-                episoideID = page.locator("#episode_number_numeric_text_box_field").get_attribute("value")
+                episoideID = page.locator("#episode_number_numeric_text_box_field").get_attribute("aria-valuenow", timeout=60000)
                 time.sleep(random.uniform(1, 2))
                 
                 if (int(episoideID) != int(episoideNumber)):
