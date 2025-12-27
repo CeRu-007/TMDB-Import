@@ -40,6 +40,9 @@ def extract_from_url(url, language="zh-CN"):
     elif domain.endswith(".litv.tv"):
         from .extractors import litv
         episodes = litv.litv_extractor(url)
+    elif domain.endswith(".linetv.tw"):
+        from .extractors import linetv
+        episodes = linetv.linetv_extractor(url)
     elif domain.endswith(".mgtv.com"):
         from .extractors import mgtv
         episodes = mgtv.mgtv_extractor(url)

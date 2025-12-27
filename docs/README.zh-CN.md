@@ -104,6 +104,8 @@ Windows 11、Chrome/Chromium、Python 3 和 Visual Studio Code。
 | iqiyi      | &#10004; |    x     |    x     |    x     | &#10004; | zh-CN    |
 | ixigua     | &#10004; | &#10004; | &#10004; | &#10004; | &#10004; | zh-CN    |
 | kktv       | &#10004; |    x     | &#10004; | &#10004; | &#10004; | zh-TW    |
+| linetv     | &#10004; |    x     | &#10004; |    x     | &#10004; | zh-TW    |
+| litv       | &#10004; |    x     |    x     |    x     | &#10004; | zh-TW    |
 | mgtv       | &#10004; |    x     | &#10004; | &#10004; |    x     | zh-CN    |
 | mgtv       | &#10004; |    x     |    x     |    x     |    x     | zh-TW    |
 | mytvsuper  | &#10004; | &#10004; | &#10004; | &#10004; | &#10004; | zh-TW    |
