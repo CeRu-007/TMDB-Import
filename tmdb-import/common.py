@@ -111,14 +111,22 @@ def create_csv(filename, import_data = {}):
     import_data = remove_duplicate_backdrop(import_data)
     import_data = filter_by_name(import_data, filter_words)
     
-    # Renumber episodes sequentially
-    renumbered_data = {}
-    episode_count = 1
-    for original_episode_number, episode in import_data.items():
-        episode.episode_number = str(episode_count)
-        renumbered_data[episode.episode_number] = episode
-        episode_count += 1
-    import_data = renumbered_data
+    # Check if any episode uses season format (S{season}E{episode})
+    import re
+    has_season_format = any(
+        isinstance(ep_num, str) and re.match(r'^S\d+E\d+$', str(ep_num))
+        for ep_num in import_data.keys()
+    )
+    
+    # Only renumber episodes if not using season format
+    if not has_season_format:
+        renumbered_data = {}
+        episode_count = 1
+        for original_episode_number, episode in import_data.items():
+            episode.episode_number = str(episode_count)
+            renumbered_data[episode.episode_number] = episode
+            episode_count += 1
+        import_data = renumbered_data
 
     import csv
     with open(filename, "w", newline='', encoding=encoding) as csvfile:
