@@ -262,6 +262,7 @@ def import_spisode(tmdb_id, season_number, language, csv_filename="import.csv"):
                 os.remove(imagePath)
 
         backdrop_forced_upload = config.getboolean("DEFAULT","backdrop_forced_upload", fallback=False)
+        backdrop_vote_after_upload = config.getboolean("DEFAULT","backdrop_vote_after_upload", fallback=False)
         if not backdrop_forced_upload:
             page.goto(f"https://www.themoviedb.org/tv/{tmdb_id}/season/{season_number}")
             time.sleep(3)
@@ -315,6 +316,33 @@ def import_spisode(tmdb_id, season_number, language, csv_filename="import.csv"):
                     page.wait_for_function("() => document.querySelector('span[class=\"k-file-validation-message\"]')?.textContent?.includes('successfully')", timeout=30000)
 
                     # thumbs up upload backdrop
+                    if backdrop_vote_after_upload:
+                        try:
+                            # Close upload window
+                            time.sleep(random.uniform(0.5, 1))
+                            page.keyboard.press('Escape')
+                            time.sleep(random.uniform(0.5, 1))
+
+                            # Wait for new uploaded image card to appear
+                            time.sleep(random.uniform(2, 3))
+
+                            # Find the last image card (newly uploaded image is at the end)
+                            last_card = page.locator("li.card").last
+                            if last_card.count() > 0:
+                                # Hover over image element to show thumbs up button
+                                image_element = last_card.locator("img.backdrop")
+                                image_element.hover()
+                                time.sleep(random.uniform(0.5, 1))
+
+                                # Get thumbs up button
+                                thumbs_up = last_card.locator("a.thumbs_up")
+                                if thumbs_up.count() > 0:
+                                    logging.info(f"Voting for uploaded image of episode {episoideNumber}")
+                                    thumbs_up.click()
+                                    time.sleep(random.uniform(1, 2))
+                        except Exception as e:
+                            logging.error(
+                                f"Failed to vote for uploaded image: {e}", exc_info=e)
                 except Exception as e:
                     logging.error(
                         f"Download/upload backdrop error for: {importData[episoideNumber]['backdrop']}.", exc_info=e)
